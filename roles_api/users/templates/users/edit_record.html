@@ -1,0 +1,32 @@
+{% extends 'users/base.html' %}
+
+{% block nav%}
+<ul class="nav-list">
+    <li><a class="nav-button" href="{% url 'index' %}">Список дел</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'edit_record' pk=object.pk %}" method="post">
+    {% csrf_token %}
+    {% if object %}
+    <div class="form-group">
+        <label class="small mb-1" for="{{ form.title.id_for_label }}">Заголовок</label>
+        {{ form.title }}
+    </div>
+    <div class="form-group">
+        <label class="small mb-1" for="{{ form.description.id_for_label }}">Описание</label>
+        {{ form.description }}
+    </div>
+    <div class="form-group">
+        <label class="small mb-1" for="{{ form.completed.id_for_label }}">Статус</label>
+        {{ form.completed }}
+    </div>
+    <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+    </div>
+    {% else %}
+    <p>Объект для редактирования не найден</p>
+    {% endif %}
+</form>
+{% endblock %}

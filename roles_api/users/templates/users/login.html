@@ -1,0 +1,45 @@
+{% extends 'users/base.html' %}
+
+<body>
+    {% block nav%}
+    <ul class="nav-list">
+        <li><a class="nav-button" href="{% url 'index' %}">Главная</a></li>
+    </ul>
+    {% endblock %}
+
+    {% block content%}
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Ошибка:</strong> Пожалуйста, проверьте введенные данные.
+            <ul>
+                {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                <li>{{ field }}: {{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label class="small mb-1" for="{{ form.username.id_for_label }}">Имя пользователя</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label class="small mb-1" for="{{ form.password.id_for_label }}">Пароль</label>
+            {{ form.password }}
+        </div>
+        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+            <input class="btn btn-primary" type="submit" value="Авторизоваться">
+        </div>
+    </form>
+    <div class="card-footer text-center">
+        <div class="small"><a href="{% url 'registration' %}">Нужен аккаунт? Зарегистрируйся!</a>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>

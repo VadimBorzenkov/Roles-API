@@ -1,0 +1,99 @@
+{% extends 'users/base.html' %}
+
+{% block nav %}
+{% if role == 'Администратор' %}
+<a class="nav-button" href="{% url 'add_record' %}">Добавить</a>
+<a class="nav-button" href="{% url 'search' %}">Поиск</a>
+<a class="nav-button" href="{% url 'logout' %}">Выход</a>
+
+
+{% elif role == 'Пользователь' %}
+
+<a class="nav-button" href="{% url 'search' %}">Поиск</a>
+<a class="nav-button" href="{% url 'logout' %}">Выход</a>
+
+{% else %}
+<a class="nav-button" href="{% url 'search' %}">Поиск</a>
+<a class="nav-button" href="{% url 'login' %}">Авторизация</a>
+<a class="nav-button" href="{% url 'registration' %}">Регистрация</a>
+{% endif %}
+{% endblock %}
+{% block content %}
+{% if role == 'Администратор' %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Заголовок</th>
+            <th>Описание</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.completed }}</td>
+            <td class="button-cell">
+                <a href="{% url 'delete_record' pk=task.pk %}">Удалить</a>
+            </td>
+            <td class="button-cell">
+                <a href="{% url 'edit_record' pk=task.pk %}">Изменить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% elif role == 'Пользователь' %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Заголовок</th>
+            <th>Описание</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.completed }}</td>
+            <td class="button-cell">
+                <a href="{% url 'edit_record' pk=task.pk %}">Изменить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Заголовок</th>
+            <th>Описание</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.completed }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %}

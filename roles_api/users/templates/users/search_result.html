@@ -1,0 +1,42 @@
+{% extends 'users/base.html' %}
+
+<body>
+    {% block nav%}
+    <ul class="nav-list">
+        <li><a class="nav-button" href="{% url 'index' %}">Список дел</a></li>
+    </ul>
+    {% endblock %}
+
+    {% block content%}
+    {% if results %}
+    <h2>Результаты поиска</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Статус</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ result.title }}</td>
+                <td>{{ result.description }}</td>
+                <td>{{ result.completed }}</td>
+
+
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        {% else %}
+        <p>Ничего не найдено</p>
+        {% endif %}
+        {% endblock %}
+</body>
+
+</html>
